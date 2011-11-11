@@ -17,7 +17,7 @@ Eclipse
 -------
 
 Install the [eclipse plug-in](http://code.google.com/p/js-test-driver/wiki/UsingTheEclipsePlugin).
-This set up works with version 1.1.1c of the plug-in.
+This set up works with version 1.1.1e of the plug-in.
 
 You'll need to create a new JS Test Driver Test run configuration. Pick the jstestdriver-sample-project
 project and pick jsTestDriver.conf as the config file.

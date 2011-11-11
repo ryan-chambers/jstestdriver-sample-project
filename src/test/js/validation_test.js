@@ -19,7 +19,7 @@ function createFakeResponse(responseCode) {
     return [
 	 	200,
 	 	{ "Content-Type": "text/xml" },
-	 	'<?xml version="1.0" encoding="UTF-8"?><username>' + responseCode + '</username>'
+	 	'<?xml version="1.0" encoding="UTF-8"?><result>' + responseCode + '</result>'
 	];
 }
 
@@ -28,7 +28,7 @@ function callValidation(field, server) {
 
 	server.respond();
 
-	return validation.validateAlphaNumeric(field);
+	return validation.isUsernameValid();
 }
 
 TestCase("validateUsername", sinon.testCase({
@@ -37,9 +37,11 @@ TestCase("validateUsername", sinon.testCase({
 	    this.server = sinon.fakeServerWithClock.create();
 	    /*:DOC input = <input type="text" id="test_field" value="!" /> */
 	},
+
 	tearDown: function() {
 	    this.server.restore();
 	},
+
 	"test validateUsername user name already used" : function() {
 		var field = $(this.input),
 			isValid;
@@ -50,26 +52,7 @@ TestCase("validateUsername", sinon.testCase({
 
 		assertEquals("should have got username already used error", isValid, false);
 	},
-	"test validateUsername user name contains invalid characters" : function() {
-		var field = $(this.input),
-			isValid;
 
-		this.server.respondWith(createFakeResponse('error : username contains invalid characters'));
-
-		isValid = callValidation(field, this.server);
-
-		assertEquals("should have got username contains invalid characters error", isValid, false);
-	},
-	"test validateUsername user name contains spaces" : function() {
-		var field = $(this.input),
-			isValid;
-
-		this.server.respondWith(createFakeResponse('error : username contains spaces'));
-
-		isValid = callValidation(field, this.server);
-
-		assertEquals("should have got username has spaces error", isValid, false);
-	},
 	"test validateUsername valid" : function() {
         /*:DOC input = <input type="text" id="test_field" value="chuck_norris" /> */
 		var field = $(this.input),
